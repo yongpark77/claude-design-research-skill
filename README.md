@@ -20,16 +20,38 @@ A [Claude Code skill](https://code.claude.com/docs/en/skills.md) that automates 
 
 ## Installation
 
-Copy `SKILL.md` to your Claude Code skills directory:
+1. Copy `SKILL.md` to your Claude Code skills directory:
 
 ```bash
 mkdir -p ~/.claude/skills/design-research
 cp SKILL.md ~/.claude/skills/design-research/
 ```
 
+2. Copy `save_to_notion.sh` to your project directory and make it executable:
+
+```bash
+cp save_to_notion.sh /path/to/your/project/
+chmod +x save_to_notion.sh
+```
+
+3. Create a `.notion_credentials` file in your project root:
+
+```bash
+NOTION_API_KEY=your_notion_api_key_here
+NOTION_PAGE_ID=your_notion_page_id_here
+```
+
+> **Note:** `.notion_credentials` is in `.gitignore` and should never be committed. Each user must create their own.
+
+### Getting Notion credentials
+
+- **API Key**: Create an integration at [Notion Developers](https://www.notion.so/my-integrations) and copy the Internal Integration Secret.
+- **Page ID**: Open the target Notion page in browser. The 32-character hex string at the end of the URL is the Page ID.
+- Don't forget to **connect** your integration to the target page (Page → ··· → Connections → Add).
+
 ## Requirements
 
 - [Claude Code](https://claude.com/claude-code) CLI
-- Notion API credentials (`.notion_credentials` file)
-- `save_to_notion.sh` script for Notion upload
 - Playwright MCP server configured in Claude Code
+- Python 3 (for `save_to_notion.sh`)
+- Notion API integration with page access
