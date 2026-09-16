@@ -1,57 +1,28 @@
 # design-research
 
-A [Claude Code skill](https://code.claude.com/docs/en/skills.md) that automates design research and generates Notion reports.
-
-## What it does
-
-1. Saves and closes Chrome tabs (for Playwright compatibility)
-2. Performs web research using WebSearch, WebFetch, and Playwright
-3. Collects and validates images (HTTP HEAD check, format compatibility)
-4. Writes a structured Markdown report
-5. Uploads to Notion via `save_to_notion.sh`
-6. Restores Chrome tabs
+Explicit-invocation, read-only skill that researches public market and competitor UX/UI patterns and
+returns a report in the chat for the `product-design` skill to use. Shared by Claude Code
+(`~/.claude/skills/design-research`) and Codex (`~/.agents/skills/design-research` is a symlink to it).
 
 ## Usage
 
 ```
 /design-research SaaS 온보딩 UX 트렌드 2026
-/design-research 모바일 앱 네비게이션 패턴 분석
 ```
 
-## Installation
+## What it does
 
-1. Copy `SKILL.md` to your Claude Code skills directory:
+Restates the question, collects public examples with WebSearch and WebFetch, extracts recurring
+patterns and counter-examples, and returns principles and risks for the current product with a
+dated source link per claim.
 
-```bash
-mkdir -p ~/.claude/skills/design-research
-cp SKILL.md ~/.claude/skills/design-research/
-```
+## What it never does
 
-2. Copy `save_to_notion.sh` to your project directory and make it executable:
+It does not publish to Notion or any other service, write files, touch Figma, change browser or app
+state, log in, or collect credentials or PII. Earlier versions uploaded reports to Notion and closed
+Chrome tabs; that behavior is retired and must not be reintroduced.
 
-```bash
-cp save_to_notion.sh /path/to/your/project/
-chmod +x save_to_notion.sh
-```
+## Legacy file
 
-3. Create a `.notion_credentials` file in your project root:
-
-```bash
-NOTION_API_KEY=your_notion_api_key_here
-NOTION_PAGE_ID=your_notion_page_id_here
-```
-
-> **Note:** `.notion_credentials` is in `.gitignore` and should never be committed. Each user must create their own.
-
-### Getting Notion credentials
-
-- **API Key**: Create an integration at [Notion Developers](https://www.notion.so/my-integrations) and copy the Internal Integration Secret.
-- **Page ID**: Open the target Notion page in browser. The 32-character hex string at the end of the URL is the Page ID.
-- Don't forget to **connect** your integration to the target page (Page → ··· → Connections → Add).
-
-## Requirements
-
-- [Claude Code](https://claude.com/claude-code) CLI
-- Playwright MCP server configured in Claude Code
-- Python 3 (for `save_to_notion.sh`)
-- Notion API integration with page access
+`save_to_notion.sh` is retained from an earlier version for repository history and compatibility.
+The current skill does not invoke it, request its credentials, or treat it as part of the workflow.
